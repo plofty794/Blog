@@ -7,7 +7,7 @@ import useCreateBlog from "@/hooks/useCreateBlog";
 import { Toaster } from "@/components/ui/toaster";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { BlogSchema, schema } from "@/zod schema/zodSchema";
+import { BlogSchema, zodBlogSchema } from "@/zod schema/zodSchema";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,7 @@ function Form() {
     register,
     resetField,
   } = useForm<BlogSchema>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(zodBlogSchema),
     defaultValues: {
       title: "",
       body: "",
@@ -46,7 +46,7 @@ function Form() {
             Add Blog
           </Button>
         </DialogTrigger>
-        <DialogContent className="bg-slate-800 text-white">
+        <DialogContent className="bg-slate-800 text-white border-none">
           <DialogHeader>
             <DialogTitle className="text-white font-bold">Add Blog</DialogTitle>
           </DialogHeader>
@@ -67,8 +67,9 @@ function Form() {
                 id="title"
                 placeholder="Add blog title here"
               />
+
               {errors.title && (
-                <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold rounded border w-max mt-2">
+                <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max mt-2">
                   <span>{errors.title.message}</span>
                 </div>
               )}
@@ -87,12 +88,14 @@ function Form() {
                 placeholder="Add blog content here"
               />
               {errors.body && (
-                <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold rounded border w-max mt-2">
+                <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max mt-2">
                   <span>{errors.body.message}</span>
                 </div>
               )}
             </div>
-            <Button className="m-4 w-max">Create Blog</Button>
+            <Button variant={"destructive"} className="m-4 w-max">
+              Create Blog
+            </Button>
           </form>
         </DialogContent>
       </Dialog>

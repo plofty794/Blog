@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-white\/80 {
+  background-color: transparent;
+}
+
+.success-toast {
+  background-color: #0f172a;
+  color: white;
+  font-weight: 700;
+}
+
+.success-toast > button > svg {
+  color: white;
+}

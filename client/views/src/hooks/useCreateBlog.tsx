@@ -22,7 +22,8 @@ function useCreateBlog() {
       queryClient.invalidateQueries(["blogs"]);
       toast({
         description: "Blog Added successfully!",
-        color: "black",
+        variant: "default",
+        className: "success-toast",
       });
     },
   });

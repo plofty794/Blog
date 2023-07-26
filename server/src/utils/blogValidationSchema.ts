@@ -1,9 +1,9 @@
 import joi from "joi";
+import passwordComplexity from "joi-password-complexity";
 
-export const validateBlog = (reqBody: { title?: string; body?: string }) => {
+export const validatePasswordUserSignUp = (password: string) => {
   const schema = joi.object({
-    title: joi.string().min(5).required().label("Title"),
-    body: joi.string().min(20).required().label("Body"),
+    password: passwordComplexity().required().label("Password"),
   });
-  return schema.validate(reqBody);
+  return schema.validate({ password });
 };

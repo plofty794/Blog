@@ -1,21 +1,26 @@
-import { axiosRoute } from "./api/axios";
-import Blogs from "./partials/Blogs";
-import Form from "./partials/Form";
-
-async function getBlogs() {
-  const { data } = await axiosRoute.get("/api/blogs");
-  console.log(data);
-}
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Signin from "./routes/Signin";
+import Signup from "./routes/Signup";
+import Home from "./routes/Home";
+import RootLayout from "./RootLayout";
 
 function App() {
-  getBlogs();
-
-  return (
-    <main className="min-h-screen p-4 flex flex-col items-center bg-slate-900">
-      <Form />
-      <Blogs />
-    </main>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route element={<RootLayout />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+      </Route>
+    )
   );
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
