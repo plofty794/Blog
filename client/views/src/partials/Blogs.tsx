@@ -1,47 +1,49 @@
-import { axiosRoute } from "@/api/axios";
-import { useQuery } from "@tanstack/react-query";
 import { BlogSchema } from "@../../../../server/src/models/Blogs";
-import { AxiosError, AxiosResponse } from "axios";
-import { TrashIcon } from "@radix-ui/react-icons";
-import useDeleteBlog from "@/hooks/useDeleteBlog";
 import Blog from "./Blog";
+import { Button } from "@/components/ui/button";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import useGetBlogs from "@/hooks/useGetBlogs";
+import { Badge } from "@/components/ui/badge";
 
 function Blogs() {
-  const { isLoading, data, isError, error } = useQuery({
-    queryKey: ["blogs"],
-    queryFn: fetchBlogs,
-  });
-
-  async function fetchBlogs() {
-    const { data } = await axiosRoute.get("/api/blogs");
-    return data;
-  }
-
-  if (isLoading) {
-    return (
-      <div className="my-3 p-2 rounded-md bg-slate-800">
-        <span className="text-white font-bold text-lg">Loading...</span>
-      </div>
-    );
-  }
-
-  if (isError) {
-    const err = error as AxiosError;
-    const message = (err.response as AxiosResponse)?.data?.message;
-    return (
-      <div className="my-3 p-2 rounded-md bg-slate-800">
-        <span className="text-white font-bold text-lg">{message}</span>
-      </div>
-    );
-  }
+  const { data, fetchNextPage, isFetchingNextPage, isError } = useGetBlogs();
+  const TOTAL_BLOGS = data?.pages.flat().length;
 
   return (
-    <div className="m-6 grid lg:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 w-4/5 border-black shadow shadow-black rounded">
-      {data &&
-        data.blogs.map((blog: BlogSchema) => (
-          <Blog blog={blog} key={blog._id.toString()} />
-        ))}
-    </div>
+    <>
+      <Badge
+        variant={"secondary"}
+        className="text-center mt-2 bg-slate-700 text-white hover:bg-slate-800"
+      >
+        Blog Count: {TOTAL_BLOGS}
+      </Badge>
+      <div className="m-6 grid lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 w-4/5">
+        {data &&
+          data.pages.map((page) =>
+            page.map((blog: BlogSchema) => (
+              <Blog blog={blog} key={blog._id.toString()} />
+            ))
+          )}
+      </div>
+      <div className="flex p-1">
+        <Button
+          onClick={() => fetchNextPage()}
+          variant={"destructive"}
+          disabled={isFetchingNextPage || isError}
+        >
+          {isFetchingNextPage ? (
+            <>
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+              Loading
+            </>
+          ) : isError || !data?.pages.length ? (
+            "No blogs to load"
+          ) : (
+            "Next"
+          )}
+        </Button>
+      </div>
+    </>
   );
 }
 

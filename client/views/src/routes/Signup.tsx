@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, zodSignupSchema } from "../zod schema/zodSchema";
 import useSignup from "@/hooks/useSignup";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
+import { Toaster } from "@/components/ui/toaster";
 
 function Signup() {
   const { error, mutate } = useSignup();
@@ -98,14 +99,11 @@ function Signup() {
                 <span>{errors.confirmPassword.message}</span>
               </div>
             )}
-            {err && (
-              <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max">
-                <span>{(err.response as AxiosResponse).data.message}</span>
-              </div>
-            )}
+
             <Button variant={"default"}>Sign up</Button>
           </form>
         </div>
+        <Toaster />
       </section>
     </main>
   );

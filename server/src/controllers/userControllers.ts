@@ -1,6 +1,6 @@
-import { ErrorRequestHandler, RequestHandler } from "express";
+import { RequestHandler } from "express";
 import { isValidObjectId } from "mongoose";
-import createHttpError, { isHttpError } from "http-errors";
+import createHttpError from "http-errors";
 import Users from "../models/Users";
 import { validatePasswordUserSignUp } from "../utils/blogValidationSchema";
 

@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import env from "./utils/envalid";
 import { blogRoutes } from "./routes/blogRoutes";
-import { errorHandler } from "./controllers/errorController";
 import { userRoutes } from "./routes/userRoutes";
+import { errorHandler } from "./controllers/errorController";
 const app = express();
 
 app.use(cors({ origin: env.ALLOWED_ROUTE, credentials: true }));

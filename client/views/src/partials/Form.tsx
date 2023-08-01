@@ -62,6 +62,7 @@ function Form() {
                 Title
               </Label>
               <Input
+                spellCheck={true}
                 className="bg-slate-800 text-white text-sm"
                 {...register("title")}
                 id="title"

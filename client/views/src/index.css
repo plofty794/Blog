@@ -12,6 +12,17 @@
   font-weight: 700;
 }
 
-.success-toast > button > svg {
+.error-toast {
+  background-color: #8b0f11;
+  border-color: #8b0f11;
   color: white;
+  font-weight: 700;
+}
+
+.loader {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0f172a;
 }

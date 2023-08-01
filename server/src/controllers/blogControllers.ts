@@ -7,7 +7,33 @@ export const getBlogs: RequestHandler = async (req, res, next) => {
   try {
     const blogs = await Blogs.find({}).sort({ _id: "desc" }).exec();
     if (!blogs.length) {
-      throw createHttpError(400, "No such blogs!");
+      throw createHttpError(400, "No blogs found.");
+    }
+    res.status(200).json({ hasError: false, blogs });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getBlog: RequestHandler = async (req, res, next) => {
+  const limit = 6;
+  const page: number = parseInt(req.params.page as string) ?? 1;
+  try {
+    if (page < 1) {
+      throw createHttpError(400, "Invalid page number.");
+    }
+    const totalBlogs = await Blogs.countDocuments({});
+    const totalPages = Math.ceil(totalBlogs / limit);
+    if (page > totalPages) {
+      throw createHttpError(404, "This page could not be found.");
+    }
+    const blogs = await Blogs.find({})
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ _id: "desc" })
+      .exec();
+    if (!blogs.length) {
+      throw createHttpError(400, "No blogs found.");
     }
     res.status(200).json({ hasError: false, blogs });
   } catch (error) {

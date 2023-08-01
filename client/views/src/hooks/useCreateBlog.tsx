@@ -6,9 +6,9 @@ import { useQueryClient } from "@tanstack/react-query";
 
 function useCreateBlog() {
   const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: ({ title, body }: { title: string; body: string }) => {
-      return axiosRoute.post("/api/blogs", { title, body });
+  return useMutation({
+    mutationFn: (data: { title: string; body: string }) => {
+      return axiosRoute.post("/api/blogs", { ...data });
     },
     onError(error: AxiosError) {
       toast({
@@ -17,17 +17,16 @@ function useCreateBlog() {
         variant: "destructive",
       });
     },
-    onSuccess(data) {
-      console.log(data);
+    onSuccess(res: AxiosResponse) {
       queryClient.invalidateQueries(["blogs"]);
       toast({
+        title: `Blog ${res.data.newBlog.title}`,
         description: "Blog Added successfully!",
         variant: "default",
         className: "success-toast",
       });
     },
   });
-  return mutation;
 }
 
 export default useCreateBlog;

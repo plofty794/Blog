@@ -11,7 +11,7 @@ function Home() {
   getBlogs();
 
   return (
-    <main className="min-h-screen p-4 flex flex-col items-center bg-slate-900">
+    <main className="min-h-screen p-4 flex flex-col items-center bg-slate-950">
       <Form />
       <Blogs />
     </main>

@@ -7,19 +7,27 @@ import { AxiosResponse } from "axios";
 
 function useDeleteBlog() {
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: (blog: BlogSchema) => {
       return axiosRoute.delete(`/api/blogs/${blog._id}`);
     },
     onSuccess(res: AxiosResponse) {
-      console.log(res);
-      queryClient.invalidateQueries(["blogs"]);
       toast({
         description: res.data.message,
+        className: "success-toast",
+        variant: "default",
+      });
+    },
+    onSettled(_, __, variables) {
+      queryClient.setQueryData(["blogs"], (oldData: any) => {
+        const newData = oldData.pages.map((page: []) =>
+          page.filter((old: BlogSchema) => variables._id != old._id)
+        );
+        console.log(newData);
+        return { pageParams: [undefined], pages: newData };
       });
     },
   });
-  return mutation;
 }
 
 export default useDeleteBlog;

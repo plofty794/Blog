@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
 } from "react-router-dom";
@@ -13,9 +14,10 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<RootLayout />}>
-        <Route path="/home" element={<Home />} />
+        <Route index path="/home" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Navigate replace to="/home" />} />
       </Route>
     )
   );

@@ -1,4 +1,6 @@
 import { Schema, model, ObjectId } from "mongoose";
+import bcrypt from "bcrypt";
+import env from "../utils/envalid";
 
 export type UserSchema = {
   _id: ObjectId;
@@ -22,9 +24,15 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function () {
+  const hashedPassword = await bcrypt.hash(this.password, env.SALT);
+  this.password = hashedPassword;
+});
 
 export default model<UserSchema>("Users", userSchema);

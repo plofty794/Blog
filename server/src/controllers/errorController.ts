@@ -1,7 +1,7 @@
 import { ErrorRequestHandler } from "express";
 import { isHttpError } from "http-errors";
 
-export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+export const errorHandler: ErrorRequestHandler = (err, _, res, __) => {
   console.error(err);
   if (isHttpError(err)) {
     return res
