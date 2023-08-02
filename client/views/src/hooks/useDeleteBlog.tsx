@@ -23,7 +23,6 @@ function useDeleteBlog() {
         const newData = oldData.pages.map((page: []) =>
           page.filter((old: BlogSchema) => variables._id != old._id)
         );
-        console.log(newData);
         return { pageParams: [undefined], pages: newData };
       });
     },
