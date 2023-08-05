@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 
 function Blogs() {
   const { data, fetchNextPage, isFetchingNextPage, isError } = useGetBlogs();
-  const TOTAL_BLOGS = data?.pages.flat().length;
+  const TOTAL_BLOGS = data?.pages.flat().length ?? 0;
 
   return (
     <>

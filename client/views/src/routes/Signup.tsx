@@ -6,12 +6,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, zodSignupSchema } from "../zod schema/zodSchema";
 import useSignup from "@/hooks/useSignup";
-import { AxiosError } from "axios";
 import { Toaster } from "@/components/ui/toaster";
+import { useUserStore } from "@/store/userStore";
 
 function Signup() {
-  const { error, mutate } = useSignup();
-  const err = error as AxiosError;
+  const { mutate } = useSignup();
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
+
+  user && console.log(user);
 
   const {
     handleSubmit,
@@ -34,6 +37,7 @@ function Signup() {
     resetField("email", { defaultValue: "", keepError: false });
     resetField("password", { defaultValue: "", keepError: false });
     resetField("confirmPassword", { defaultValue: "", keepError: false });
+    setUser(`USER: ${username}`);
   }
 
   return (

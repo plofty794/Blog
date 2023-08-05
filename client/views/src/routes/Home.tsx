@@ -1,16 +1,8 @@
 import Blogs from "@/partials/Blogs";
 import Form from "@/partials/Form";
-import { axiosRoute } from "../api/axios";
 import { Link } from "react-router-dom";
 
-async function getBlogs() {
-  const { data } = await axiosRoute.get("/api/blogs");
-  console.log(data);
-}
-
 function Home() {
-  getBlogs();
-
   return (
     <div>
       <nav className="px-8 py-3 bg-slate-950 border-b border-slate-700">

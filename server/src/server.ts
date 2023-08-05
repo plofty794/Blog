@@ -4,14 +4,16 @@ import cors from "cors";
 import env from "./utils/envalid";
 import { blogRoutes } from "./routes/blogRoutes";
 import { userRoutes } from "./routes/userRoutes";
-import { errorHandler } from "./controllers/errorController";
+import { errorHandler } from "./middlewares/errorController";
+import { accessTokenRoute } from "./routes/tokenRoutes";
 const app = express();
 
 app.use(cors({ origin: env.ALLOWED_ROUTE, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/api", blogRoutes);
+app.use("/refresh", accessTokenRoute);
 app.use("/api", userRoutes);
+app.use("/api", blogRoutes);
 app.use(errorHandler);
 
 mongoose

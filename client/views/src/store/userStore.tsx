@@ -1,7 +1,13 @@
 import { create } from "zustand";
 
-export const useUserStore = create((set) => ({
+interface User {
+  user: unknown;
+  setUser: (payload: string) => void;
+  setLogOut: () => void;
+}
+
+export const useUserStore = create<User>((set) => ({
   user: null,
-  setUser: () => set((state: any) => ({ user: state.user })),
+  setUser: (payload) => set(() => ({ user: payload })),
   setLogOut: () => set(() => ({ user: null })),
 }));

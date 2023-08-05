@@ -3,12 +3,14 @@ const router = express.Router();
 import {
   createBlog,
   deleteBlog,
-  getBlog,
+  getBlogsPerPage,
   getBlogs,
 } from "../controllers/blogControllers";
+import { authUserToken } from "../middlewares/authToken";
 
 router.get("/blogs", getBlogs);
-router.get("/blogs/page/:page", getBlog);
+router.use(authUserToken);
+router.get("/blogs/page/:page", getBlogsPerPage);
 router.post("/blogs", createBlog);
 router.delete("/blogs/:id", deleteBlog);
 

@@ -8,4 +8,6 @@ export default cleanEnv(process.env, {
   PORT: port(),
   ALLOWED_ROUTE: url(),
   SALT: num(),
+  ACCESS_TOKEN_KEY: str(),
+  REFRESH_TOKEN_KEY: str(),
 });

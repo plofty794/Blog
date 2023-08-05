@@ -2,11 +2,16 @@ import { RequestHandler } from "express";
 import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
 import Users from "../models/Users";
-import { validatePasswordUserSignUp } from "../utils/blogValidationSchema";
+import { validatePasswordUserSignUp } from "../utils/signUpValidationSchema";
+import bcrypt from "bcrypt";
+import { generateToken } from "../utils/generateToken";
 
 export const getUsers: RequestHandler = async (req, res, next) => {
   try {
-    const users = await Users.find().sort({ _id: "desc" }).exec();
+    const users = await Users.find()
+      .sort({ _id: "desc" })
+      .select(["-password"])
+      .exec();
     if (!users.length) {
       throw createHttpError(400, "No such users!");
     }
@@ -33,22 +38,44 @@ export const getUser: RequestHandler = async (req, res, next) => {
 };
 
 export const createUser: RequestHandler = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const {
+    username,
+    email,
+    password,
+  }: { username?: string; email?: string; password?: string } = req.body;
   try {
     const { error } = validatePasswordUserSignUp(password);
     if (error) {
       throw createHttpError(400, error.details[0].message);
     }
-    const usernameExist = await Users.findOne({ username });
-    if (usernameExist) {
-      throw createHttpError(400, "Username already exist!");
-    }
-    const emailExist = await Users.findOne({ email });
-    if (emailExist) {
-      throw createHttpError(400, "Email already exist!");
+    const userExist = await Users.findOne({ username }).select(["+email"]);
+    if (userExist) {
+      throw createHttpError(400, "User already exist!");
     }
     const newUser = await Users.create({ ...req.body });
     res.status(201).json({ hasError: false, newUser });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logInUser: RequestHandler = async (req, res, next) => {
+  const { email, password }: { email?: string; password?: string } = req.body;
+  try {
+    if (!email || !password) {
+      throw createHttpError(400, "Parameters are required.");
+    }
+    const user = await Users.findOne({ email });
+    if (!user) {
+      throw createHttpError(401, "User doesn't exist.");
+    }
+    const correctPwd = await bcrypt.compare(password, user.password);
+    if (!correctPwd) {
+      throw createHttpError(401, "Incorrect user credentials.");
+    }
+    const { accessToken, refreshToken } = await generateToken(user);
+    res.cookie("user_session", refreshToken, { httpOnly: true });
+    res.status(200).json({ hasError: false, user, accessToken });
   } catch (error) {
     next(error);
   }

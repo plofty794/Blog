@@ -1,4 +1,4 @@
-import { Schema, model, ObjectId } from "mongoose";
+import { Schema, model, ObjectId, Types } from "mongoose";
 
 export type BlogSchema = {
   _id: ObjectId;
@@ -17,6 +17,10 @@ const blogsSchema = new Schema(
     body: {
       type: String,
       required: true,
+    },
+    user: {
+      type: Types.ObjectId,
+      ref: "Users",
     },
   },
   { timestamps: true }

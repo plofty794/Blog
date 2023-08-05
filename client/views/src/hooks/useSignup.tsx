@@ -10,10 +10,13 @@ function useSignup() {
   return useMutation({
     mutationFn: (user: SignupSchema) => {
       const { username, email, password } = user;
-      return axiosRoute.post("/api/users", { username, email, password });
+      return axiosRoute.post("/api/users/signup", {
+        username,
+        email,
+        password,
+      });
     },
-    onSuccess(res: AxiosResponse) {
-      console.log(res);
+    onSuccess() {
       queryClient.invalidateQueries(["blogs"]);
       toast({
         description: "User created successfully",

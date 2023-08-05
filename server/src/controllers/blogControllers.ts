@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import Blogs from "../models/Blogs";
-import createHttpError, { isHttpError } from "http-errors";
+import createHttpError from "http-errors";
 import { isValidObjectId } from "mongoose";
 
 export const getBlogs: RequestHandler = async (req, res, next) => {
@@ -15,7 +15,8 @@ export const getBlogs: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getBlog: RequestHandler = async (req, res, next) => {
+export const getBlogsPerPage: RequestHandler = async (req, res, next) => {
+  const user = req.user;
   const limit = 6;
   const page: number = parseInt(req.params.page as string) ?? 1;
   try {
@@ -27,8 +28,9 @@ export const getBlog: RequestHandler = async (req, res, next) => {
     if (page > totalPages) {
       throw createHttpError(404, "This page could not be found.");
     }
-    const blogs = await Blogs.find({})
+    const blogs = await Blogs.find({ user })
       .skip((page - 1) * limit)
+      .populate({ select: "username", path: "user" })
       .limit(limit)
       .sort({ _id: "desc" })
       .exec();
@@ -48,12 +50,13 @@ interface BlogTypes {
 
 export const createBlog: RequestHandler = async (req, res, next) => {
   const { title }: BlogTypes = req.body;
+  const user = req.user;
   try {
     const blogExist = await Blogs.findOne({ title });
     if (blogExist) {
       throw createHttpError(400, "Title already exist!");
     }
-    const newBlog = await Blogs.create({ ...req.body });
+    const newBlog = await Blogs.create({ ...req.body, user });
     res.status(201).json({ hasError: false, newBlog });
   } catch (error) {
     next(error);
