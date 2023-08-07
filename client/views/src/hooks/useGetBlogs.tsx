@@ -1,10 +1,16 @@
 import { axiosRoute } from "@/api/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { BlogSchema } from "../../../../server/src/models/Blogs";
+import { useAccessTokenStore } from "@/store/userStore";
 
 function useGetBlogs() {
+  const accessToken = useAccessTokenStore((state) => state.accessToken);
   async function fetchBlogs(pageParam: number): Promise<BlogSchema[]> {
-    const { data } = await axiosRoute.get(`/api/blogs/page/${pageParam}`);
+    const { data } = await axiosRoute.get(`/api/blogs/page/${pageParam}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return data.blogs;
   }
 
@@ -17,6 +23,7 @@ function useGetBlogs() {
     keepPreviousData: true,
     refetchOnWindowFocus: false,
     retry: 1,
+    enabled: accessToken != null,
   });
 }
 

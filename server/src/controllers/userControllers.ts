@@ -74,6 +74,7 @@ export const logInUser: RequestHandler = async (req, res, next) => {
       throw createHttpError(401, "Incorrect user credentials.");
     }
     const { accessToken, refreshToken } = await generateToken(user);
+    user.set("password", "");
     res.cookie("user_session", refreshToken, { httpOnly: true });
     res.status(200).json({ hasError: false, user, accessToken });
   } catch (error) {

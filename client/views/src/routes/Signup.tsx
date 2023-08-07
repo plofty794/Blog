@@ -7,14 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupSchema, zodSignupSchema } from "../zod schema/zodSchema";
 import useSignup from "@/hooks/useSignup";
 import { Toaster } from "@/components/ui/toaster";
-import { useUserStore } from "@/store/userStore";
+
+import ErrorMessage from "@/partials/ErrorMessage";
+import { Link } from "react-router-dom";
 
 function Signup() {
   const { mutate } = useSignup();
-  const user = useUserStore((state) => state.user);
-  const setUser = useUserStore((state) => state.setUser);
-
-  user && console.log(user);
 
   const {
     handleSubmit,
@@ -30,14 +28,13 @@ function Signup() {
     },
   });
 
-  async function handleSignup(data: SignupSchema) {
+  function handleSignup(data: SignupSchema) {
     const { username, email, password, confirmPassword } = data;
-    await mutate({ username, email, password, confirmPassword });
+    mutate({ username, email, password, confirmPassword });
     resetField("username", { defaultValue: "", keepError: false });
     resetField("email", { defaultValue: "", keepError: false });
     resetField("password", { defaultValue: "", keepError: false });
     resetField("confirmPassword", { defaultValue: "", keepError: false });
-    setUser(`USER: ${username}`);
   }
 
   return (
@@ -66,21 +63,14 @@ function Signup() {
               placeholder="Username"
             />
             {errors.username && (
-              <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max">
-                <span>{errors.username.message}</span>
-              </div>
+              <ErrorMessage message={errors.username.message} />
             )}
-
             <Input
               {...register("email")}
               className="border-black"
               placeholder="Email"
             />
-            {errors.email && (
-              <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max">
-                <span>{errors.email.message}</span>
-              </div>
-            )}
+            {errors.email && <ErrorMessage message={errors.email.message} />}
             <Input
               {...register("password")}
               className="border-black"
@@ -88,9 +78,7 @@ function Signup() {
               type="password"
             />
             {errors.password && (
-              <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max">
-                <span>{errors.password.message}</span>
-              </div>
+              <ErrorMessage message={errors.password.message} />
             )}
             <Input
               {...register("confirmPassword")}
@@ -99,13 +87,17 @@ function Signup() {
               type="password"
             />
             {errors.confirmPassword && (
-              <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max">
-                <span>{errors.confirmPassword.message}</span>
-              </div>
+              <ErrorMessage message={errors.confirmPassword.message} />
             )}
-
             <Button variant={"default"}>Sign up</Button>
           </form>
+          <span className="text-xs font-semibold text-center">
+            Already have an account?{" "}
+            <Link className="text-blue-600 underline" to={"/signin"}>
+              {" "}
+              Sign in
+            </Link>
+          </span>
         </div>
         <Toaster />
       </section>

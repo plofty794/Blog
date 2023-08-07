@@ -11,6 +11,7 @@ export interface JwtPayloadId extends JwtPayload {
 export const authUserToken: RequestHandler = (req, _, next) => {
   try {
     const authToken = req.headers["authorization"]?.split(" ")[1];
+    console.log(authToken);
     if (!authToken) {
       throw createHttpError(401, "Token is required.");
     }

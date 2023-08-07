@@ -13,11 +13,11 @@ function Blog({ blog }: { blog: BlogSchema }) {
   }
 
   return (
-    <Link to={`/home/${blog._id.toString().slice(0, 4)}`}>
-      <div
-        className="hover:-translate-y-1 transition-transform cursor-pointer flex flex-col items-center justify-center gap-2 p-2 m-2 rounded-lg border border-slate-400 bg-slate-800"
-        key={blog._id.toString()}
-      >
+    <div
+      className="hover:-translate-y-1 transition-transform cursor-pointer flex flex-col items-center justify-center gap-2 p-2 m-2 rounded-lg border border-slate-400 bg-slate-800"
+      key={blog._id.toString()}
+    >
+      <Link to={`/home/${blog._id.toString().slice(0, 4)}`}>
         <h2 className="whitespace-pre-line text-center font-bold text-white text-lg">
           {blog?.title.replace(/\b\w/g, (val) => val.toUpperCase())}
         </h2>
@@ -30,15 +30,15 @@ function Blog({ blog }: { blog: BlogSchema }) {
             Created at {blog.createdAt.toString().split("T")[0]}
           </p>
         </div>
-        <div className="bg-red-500 text-center text-lg w-max px-3 py-1 rounded">
-          <FontAwesomeIcon
-            icon={faSquareMinus}
-            onClick={() => handleTrashClick(blog)}
-            className="text-white hover:cursor-pointer"
-          />
-        </div>
+      </Link>
+      <div className="bg-red-500 text-center text-lg w-max px-3 py-1 rounded">
+        <FontAwesomeIcon
+          icon={faSquareMinus}
+          onClick={() => handleTrashClick(blog)}
+          className="text-white hover:cursor-pointer"
+        />
       </div>
-    </Link>
+    </div>
   );
 }
 

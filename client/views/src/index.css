@@ -8,13 +8,12 @@
 
 .success-toast {
   background-color: #0f172a;
-  color: white;
   font-weight: 700;
 }
 
 .error-toast {
-  background-color: #8b0f11;
-  border-color: #8b0f11;
+  background-color: #d21a1d;
+  border-color: #df2023;
   color: white;
   font-weight: 700;
 }

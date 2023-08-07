@@ -17,7 +17,7 @@ export const zodSignupSchema = z
   .object({
     username: z
       .string()
-      .regex(/[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9]){5,12}$/, {
+      .regex(/[a-zA-Z0-9]+([_-]?[a-zA-Z0-9]){5,12}$/, {
         message: "Invalid username",
       })
       .trim(),
@@ -38,5 +38,14 @@ export const zodSignupSchema = z
     path: ["confirmPassword"],
   });
 
+export const zodSigninSchema = z.object({
+  email: z.string().email().trim(),
+  password: z
+    .string()
+    .min(10, { message: "Password should be longer than 10 characters" })
+    .trim(),
+});
+
 export type BlogSchema = z.infer<typeof zodBlogSchema>;
 export type SignupSchema = z.infer<typeof zodSignupSchema>;
+export type SigninSchema = z.infer<typeof zodSigninSchema>;
