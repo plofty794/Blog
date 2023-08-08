@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -68,7 +67,6 @@ function Form() {
                 id="title"
                 placeholder="Add blog title here"
               />
-
               {errors.title && (
                 <div className="bg-yellow-200 text-red-600 text-xs p-1 font-bold italic rounded border border-red-600 w-max mt-2">
                   <span>{errors.title.message}</span>

@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { isValidObjectId } from "mongoose";
 import createHttpError from "http-errors";
 import Users from "../models/Users";
+import Token from "../models/UserToken";
 import { validatePasswordUserSignUp } from "../utils/signUpValidationSchema";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/generateToken";
@@ -74,9 +75,26 @@ export const logInUser: RequestHandler = async (req, res, next) => {
       throw createHttpError(401, "Incorrect user credentials.");
     }
     const { accessToken, refreshToken } = await generateToken(user);
-    user.set("password", "");
+    user.set("password", null);
+    user.set("_id", null);
+    user.set("createdAt", null);
+    user.set("updatedAt", null);
     res.cookie("user_session", refreshToken, { httpOnly: true });
     res.status(200).json({ hasError: false, user, accessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logOutUser: RequestHandler = async (req, res, next) => {
+  const refreshToken = req.headers.cookie?.split("=")[1] ?? null;
+  try {
+    if (!refreshToken) {
+      throw createHttpError(400, "No refresh token found.");
+    }
+    await Token.findOneAndRemove({ token: refreshToken });
+    res.clearCookie("user_session");
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }

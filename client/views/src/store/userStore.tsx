@@ -1,4 +1,6 @@
+import { axiosPrivateRoute } from "@/api/axios";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface User {
   user: { user: object } | null;
@@ -6,19 +8,20 @@ interface User {
   setLogOut: () => void;
 }
 
-interface AccessToken {
-  accessToken: string | null;
-  setAccessToken: (payload: string | null) => void;
-}
-
-export const useUserStore = create<User>((set) => ({
-  user: null,
-  setUser: (payload) => set(() => ({ user: payload })),
-  setLogOut: () => set(() => ({ user: null })),
-}));
-
-export const useAccessTokenStore = create<AccessToken>((set) => ({
-  accessToken: null,
-  setAccessToken: (payload: string | null) =>
-    set(() => ({ accessToken: payload })),
-}));
+export const useUserStore = create<User>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (payload) => set({ user: payload }),
+      setLogOut: async () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        await axiosPrivateRoute.delete("/api/users/logOut");
+        set({ user: null });
+      },
+    }),
+    {
+      name: "user",
+    }
+  )
+);

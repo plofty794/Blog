@@ -11,6 +11,7 @@ import Home from "./routes/Home";
 import RootLayout from "./RootLayout";
 import { useUserStore } from "@/store/userStore";
 import UnauthorizedPage from "./partials/UnauthorizedPage";
+import BlogDetails from "./routes/BlogDetails";
 
 function App() {
   const user = useUserStore((state) => state.user);
@@ -20,11 +21,19 @@ function App() {
         <Route
           index
           path="/home"
-          element={!user ? <Navigate replace to={"/unauthorized"} /> : <Home />}
+          element={!user ? <Navigate replace to={"/signin"} /> : <Home />}
+          errorElement={<UnauthorizedPage />}
         />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/signin"
+          element={user ? <Navigate replace to={"/home"} /> : <Signin />}
+        />
+        <Route
+          path="/signup"
+          element={user ? <Navigate replace to={"/home"} /> : <Signup />}
+        />
         <Route path="/" element={<Navigate replace to="/home" />} />
+        <Route path="/blog-details" element={<BlogDetails />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
       </Route>
     )

@@ -1,16 +1,17 @@
-import { axiosRoute } from "@/api/axios";
+import { axiosPrivateRoute } from "@/api/axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
 import { AxiosError, AxiosResponse } from "axios";
 import { SigninSchema } from "../zod schema/zodSchema";
-import { useAccessTokenStore, useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store/userStore";
+import { useAccessTokenStore } from "@/store/accessTokenStore";
 
 function useSignin() {
   const setUser = useUserStore((state) => state.setUser);
   const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
   return useMutation({
     mutationFn: (user: SigninSchema) => {
-      return axiosRoute.post("/api/users/signin", {
+      return axiosPrivateRoute.post("/api/users/signin", {
         ...user,
       });
     },

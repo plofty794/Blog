@@ -17,7 +17,7 @@ function Blog({ blog }: { blog: BlogSchema }) {
       className="hover:-translate-y-1 transition-transform cursor-pointer flex flex-col items-center justify-center gap-2 p-2 m-2 rounded-lg border border-slate-400 bg-slate-800"
       key={blog._id.toString()}
     >
-      <Link to={`/home/${blog._id.toString().slice(0, 4)}`}>
+      <Link to={"/blog-details"}>
         <h2 className="whitespace-pre-line text-center font-bold text-white text-lg">
           {blog?.title.replace(/\b\w/g, (val) => val.toUpperCase())}
         </h2>

@@ -1,4 +1,4 @@
-import { axiosRoute } from "@/api/axios";
+import { axiosPrivateRoute } from "@/api/axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
 import { AxiosError, AxiosResponse } from "axios";
@@ -7,7 +7,7 @@ import { SignupSchema } from "../zod schema/zodSchema";
 function useSignup() {
   return useMutation({
     mutationFn: (user: SignupSchema) => {
-      return axiosRoute.post("/api/users/signup", {
+      return axiosPrivateRoute.post("/api/users/signup", {
         ...user,
       });
     },

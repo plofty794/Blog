@@ -1,9 +1,10 @@
-import { axiosRoute } from "@/api/axios";
+import { axiosPrivateRoute } from "@/api/axios";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "@/components/ui/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAccessTokenStore, useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store/userStore";
+import { useAccessTokenStore } from "@/store/accessTokenStore";
 
 function useCreateBlog() {
   const queryClient = useQueryClient();
@@ -12,7 +13,7 @@ function useCreateBlog() {
   const logOut = useUserStore((state) => state.setLogOut);
   return useMutation({
     mutationFn: (data: { title: string; body: string }) => {
-      return axiosRoute.post(
+      return axiosPrivateRoute.post(
         "/api/blogs",
         { ...data },
         {
@@ -23,15 +24,19 @@ function useCreateBlog() {
       );
     },
     onError(error: AxiosError) {
+      if (error.response?.status === 500) {
+        setAccessToken(null);
+        logOut();
+        return toast({
+          title: "Uh oh! Something went wrong!",
+          variant: "destructive",
+        });
+      }
       toast({
         title: "Uh oh! Something went wrong!",
         description: (error.response as AxiosResponse).data?.message,
         variant: "destructive",
       });
-      if (error.response?.status === 500) {
-        setAccessToken(null);
-        logOut();
-      }
     },
     onSuccess(res: AxiosResponse) {
       queryClient.invalidateQueries(["blogs"]);
