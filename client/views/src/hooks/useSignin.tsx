@@ -19,10 +19,10 @@ function useSignin() {
       toast({
         title: "Welcome,",
         description: `${res.data.user.username}`,
-        className: "success-toast",
-        variant: "default",
+
+        variant: "destructive",
       });
-      setUser({ user: res.data.user });
+      setUser({ ...res.data.user });
       setAccessToken(res.data.accessToken);
     },
     onError(err) {

@@ -29,7 +29,7 @@ function Form() {
     },
   });
 
-  const { mutate } = useCreateBlog();
+  const { mutate, isError } = useCreateBlog();
 
   function handleFormSubmit(data: BlogSchema) {
     mutate(data);
@@ -41,7 +41,11 @@ function Form() {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="w-max mx-auto" variant="destructive">
+          <Button
+            disabled={isError}
+            className="w-max mx-auto"
+            variant="destructive"
+          >
             Add Blog
           </Button>
         </DialogTrigger>

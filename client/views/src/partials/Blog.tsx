@@ -6,7 +6,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 function Blog({ blog }: { blog: BlogSchema }) {
-  const { mutate } = useDeleteBlog();
+  const { mutate, isError } = useDeleteBlog();
 
   function handleTrashClick(blog: BlogSchema) {
     mutate(blog);
@@ -19,7 +19,7 @@ function Blog({ blog }: { blog: BlogSchema }) {
     >
       <Link to={"/blog-details"}>
         <h2 className="whitespace-pre-line text-center font-bold text-white text-lg">
-          {blog?.title.replace(/\b\w/g, (val) => val.toUpperCase())}
+          {blog?.title.replace(/\b\w/gi, (val) => val.toUpperCase())}
         </h2>
         <div className="p-2 text-center">
           <p className=" text-white text-sm">{blog?.body}</p>
@@ -32,11 +32,13 @@ function Blog({ blog }: { blog: BlogSchema }) {
         </div>
       </Link>
       <div className="bg-red-500 text-center text-lg w-max px-3 py-1 rounded">
-        <FontAwesomeIcon
-          icon={faSquareMinus}
-          onClick={() => handleTrashClick(blog)}
-          className="text-white hover:cursor-pointer"
-        />
+        <button disabled={isError}>
+          <FontAwesomeIcon
+            icon={faSquareMinus}
+            onClick={() => handleTrashClick(blog)}
+            className="text-white hover:cursor-pointer"
+          />
+        </button>
       </div>
     </div>
   );

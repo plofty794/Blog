@@ -10,8 +10,7 @@ export const useAccessTokenStore = create<AccessToken>()(
   persist(
     (set) => ({
       accessToken: null,
-      setAccessToken: (payload: string | null) =>
-        set(() => ({ accessToken: payload })),
+      setAccessToken: (payload: string | null) => set({ accessToken: payload }),
     }),
     { name: "token" }
   )

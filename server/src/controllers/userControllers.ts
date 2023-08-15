@@ -77,8 +77,6 @@ export const logInUser: RequestHandler = async (req, res, next) => {
     const { accessToken, refreshToken } = await generateToken(user);
     user.set("password", null);
     user.set("_id", null);
-    user.set("createdAt", null);
-    user.set("updatedAt", null);
     res.cookie("user_session", refreshToken, { httpOnly: true });
     res.status(200).json({ hasError: false, user, accessToken });
   } catch (error) {

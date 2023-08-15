@@ -6,6 +6,7 @@ import { ObjectId } from "mongoose";
 
 export interface JwtPayloadId extends JwtPayload {
   _id: ObjectId;
+  type: string;
 }
 
 export const authUserToken: RequestHandler = (req, _, next) => {
@@ -18,9 +19,6 @@ export const authUserToken: RequestHandler = (req, _, next) => {
       authToken,
       env.ACCESS_TOKEN_KEY
     ) as JwtPayloadId | null;
-    if (!accessToken) {
-      throw createHttpError(400, "Invalid or expired token.");
-    }
     req.user = accessToken?._id;
     next();
   } catch (error) {

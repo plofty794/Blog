@@ -22,7 +22,6 @@ function App() {
           index
           path="/home"
           element={!user ? <Navigate replace to={"/signin"} /> : <Home />}
-          errorElement={<UnauthorizedPage />}
         />
         <Route
           path="/signin"

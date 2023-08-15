@@ -9,18 +9,20 @@ export const verifyRefreshToken: RequestHandler = async (req, res, next) => {
   const refreshToken = req.headers.cookie?.split("=")[1];
   try {
     if (!refreshToken) {
-      throw createHttpError(401, "Token is required.");
+      throw createHttpError(400, "Token is required.");
     }
     const userToken = await Token.findOne({ token: refreshToken });
     if (!userToken) {
       throw createHttpError(400, "Refresh Token not found.");
     }
     const token = verify(refreshToken, env.REFRESH_TOKEN_KEY) as JwtPayloadId;
-    if (!token) {
-      await Token.findOneAndRemove({ token: refreshToken });
-      throw createHttpError(400, "Invalid or expired token.");
-    }
-    const accessToken = sign({ _id: userToken.userId }, env.ACCESS_TOKEN_KEY);
+    const accessToken = sign(
+      { _id: userToken.userId, type: "access" },
+      env.ACCESS_TOKEN_KEY,
+      {
+        expiresIn: "30secs",
+      }
+    );
     res.status(200).json({ accessToken });
   } catch (error) {
     next(error);

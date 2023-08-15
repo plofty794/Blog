@@ -1,20 +1,13 @@
-import { axiosPrivateRoute } from "@/api/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { BlogSchema } from "../../../../server/src/models/Blogs";
 import { useAccessTokenStore } from "@/store/accessTokenStore";
+import useAxiosPrivate from "./useAxiosPrivate";
 
 function useGetBlogs() {
+  const axiosPrivate = useAxiosPrivate();
   const accessToken = useAccessTokenStore((state) => state.accessToken);
-  const setAccessToken = useAccessTokenStore((state) => state.setAccessToken);
   async function fetchBlogs(pageParam: number): Promise<BlogSchema[]> {
-    const { data } = await axiosPrivateRoute.get(
-      `/api/blogs/page/${pageParam}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const { data } = await axiosPrivate.get(`/api/blogs/page/${pageParam}`);
     return data.blogs;
   }
 

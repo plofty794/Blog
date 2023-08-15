@@ -2,9 +2,14 @@ import { axiosPrivateRoute } from "@/api/axios";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+type UserObject = {
+  email: string;
+  username: string;
+};
+
 interface User {
-  user: { user: object } | null;
-  setUser: (payload: { user: object }) => void;
+  user: UserObject | null;
+  setUser: (payload: UserObject) => void;
   setLogOut: () => void;
 }
 
@@ -14,8 +19,6 @@ export const useUserStore = create<User>()(
       user: null,
       setUser: (payload) => set({ user: payload }),
       setLogOut: async () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
         await axiosPrivateRoute.delete("/api/users/logOut");
         set({ user: null });
       },

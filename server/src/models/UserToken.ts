@@ -18,6 +18,10 @@ const tokenSchema = new Schema(
       type: String,
       required: true,
     },
+    expiresAt: {
+      type: Date,
+      required: true,
+    },
   },
   { timestamps: true }
 );
