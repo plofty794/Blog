@@ -2,6 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
+.tiptap {
+  padding: 0.5rem;
+  color: white;
+  background-color: rgb(45, 39, 39);
+}
+
+.tiptap > * + * {
+  margin-top: 0.75em;
+}
+
+.tiptap ul,
+ol {
+  padding: 0 1rem;
+}
+
+.tiptap ul {
+  list-style-type: disc;
+}
+.tiptap ol {
+  list-style-type: decimal;
+}
+
+.tiptap h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+}
+
+.tiptap code {
+  background-color: rgba(#616161, 0.1);
+  color: #616161;
+}
+
+.tiptap pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.tiptap code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+}
+
+.tiptap blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(#0d0d0d, 0.1);
+}
+
+.tiptap hr {
+  border: none;
+  border-top: 2px solid rgba(#0d0d0d, 0.1);
+  margin: 2rem 0;
+}
+
+.tiptap code {
+  background-color: rgb(37, 37, 47);
+  color: white;
+}
+
 .bg-white\/80 {
   background-color: transparent;
 }

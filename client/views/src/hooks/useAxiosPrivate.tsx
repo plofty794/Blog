@@ -39,6 +39,7 @@ function useAxiosPrivate() {
         if (error?.response.status === 403) {
           setAccessToken(null);
           logOut();
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           prevRequest!.headers!.Authorization = `Bearer ${null}`;
           return axiosPrivateRoute(prevRequest);
         }
@@ -50,7 +51,7 @@ function useAxiosPrivate() {
       axiosPrivateRoute.interceptors.request.eject(requestInterceptor);
       axiosPrivateRoute.interceptors.request.eject(responseInterceptor);
     };
-  }, [user, accessToken, newAccessToken]);
+  }, [user, accessToken, newAccessToken, setAccessToken, logOut]);
 
   return axiosPrivateRoute;
 }

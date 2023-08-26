@@ -19,11 +19,6 @@ function App() {
     createRoutesFromElements(
       <Route element={<RootLayout />}>
         <Route
-          index
-          path="/home"
-          element={!user ? <Navigate replace to={"/signin"} /> : <Home />}
-        />
-        <Route
           path="/signin"
           element={user ? <Navigate replace to={"/home"} /> : <Signin />}
         />
@@ -31,9 +26,16 @@ function App() {
           path="/signup"
           element={user ? <Navigate replace to={"/home"} /> : <Signup />}
         />
-        <Route path="/" element={<Navigate replace to="/home" />} />
-        <Route path="/blog-details" element={<BlogDetails />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Route path="/" element={<Navigate replace to="/home" />} />
+
+        <Route
+          index
+          path="/home"
+          element={!user ? <Navigate replace to={"/signin"} /> : <Home />}
+        />
+
+        <Route path="/blog-details" element={<BlogDetails />} />
       </Route>
     )
   );

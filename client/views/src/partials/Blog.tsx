@@ -19,10 +19,9 @@ function Blog({ blog }: { blog: BlogSchema }) {
     >
       <Link to={"/blog-details"}>
         <h2 className="whitespace-pre-line text-center font-bold text-white text-lg">
-          {blog?.title.replace(/\b\w/gi, (val) => val.toUpperCase())}
+          Title: {blog?.title.replace(/\b\w/gi, (val) => val.toUpperCase())}
         </h2>
         <div className="p-2 text-center">
-          <p className=" text-white text-sm">{blog?.body}</p>
           <p className="text-white text-xs mt-2 font-bold">
             Added {moment(blog.createdAt).fromNow()}
           </p>

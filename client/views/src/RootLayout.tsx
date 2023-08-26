@@ -14,7 +14,7 @@ function RootLayout() {
   }
   return (
     <>
-      <div className="min-h-screen">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950">
         {user && (
           <nav className="px-8 py-3 bg-slate-950 border-b border-slate-700">
             <ul className="text-slate-200 font-semibold w-full flex justify-end items-center">
@@ -31,8 +31,10 @@ function RootLayout() {
               </li>
               <li>
                 <Link
-                  to={"/signin"}
+                  to={"/"}
+                  reloadDocument={true}
                   onClick={handleLogout}
+                  replace
                   className={buttonVariants({
                     variant: "ghost",
                     className: "hover:bg-slate-700 hover:text-white",

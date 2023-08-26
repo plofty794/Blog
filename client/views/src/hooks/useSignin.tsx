@@ -19,7 +19,6 @@ function useSignin() {
       toast({
         title: "Welcome,",
         description: `${res.data.user.username}`,
-
         variant: "destructive",
       });
       setUser({ ...res.data.user });

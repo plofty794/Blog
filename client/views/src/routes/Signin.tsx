@@ -33,7 +33,7 @@ function Signin() {
 
   return (
     <>
-      <main className="min-h-screen flex justify-center items-center bg-slate-950">
+      <main className="flex justify-center items-center bg-slate-950">
         <section className="w-2/3 p-3 grid grid-cols-2 items-center gap-3 rounded-lg bg-white">
           <div>
             <Lottie
