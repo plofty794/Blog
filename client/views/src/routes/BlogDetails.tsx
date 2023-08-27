@@ -1,10 +1,17 @@
 import { Button, buttonVariants } from "@/components/ui/button";
-import TipTapEditor from "@/partials/TipTapEditor";
+import { Suspense, lazy } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { BlogSchema, zodBlogSchema } from "@/zod schema/zodSchema";
+
+const TipTapEditor = lazy(() => import("@/partials/TipTapEditor"));
 
 function BlogDetails() {
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm<BlogSchema>({
+    resolver: zodResolver(zodBlogSchema),
+  });
 
   function formSubmit(data: FieldValues) {
     console.log(data);
@@ -13,8 +20,14 @@ function BlogDetails() {
   return (
     <>
       <form onSubmit={handleSubmit(formSubmit)}>
-        <TipTapEditor control={control} name="title" />
-        <TipTapEditor control={control} name="body" />
+        <Suspense
+          fallback={
+            <ReloadIcon className="animate-spin text-white h-11 w-11 mx-auto" />
+          }
+        >
+          <TipTapEditor control={control} name="title" />
+          <TipTapEditor control={control} name="body" />
+        </Suspense>
         <Button variant={"destructive"} type="submit">
           Submit
         </Button>
