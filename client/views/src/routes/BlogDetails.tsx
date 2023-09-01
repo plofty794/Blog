@@ -6,7 +6,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BlogSchema, zodBlogSchema } from "@/zod schema/zodSchema";
 
-const TipTapEditor = lazy(() => import("@/partials/TipTapEditor"));
+const TipTapEditor = lazy(() => import("@/partials/components/TipTapEditor"));
 
 function BlogDetails() {
   const { handleSubmit, control } = useForm<BlogSchema>({

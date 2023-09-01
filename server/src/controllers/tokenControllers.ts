@@ -15,7 +15,7 @@ export const verifyRefreshToken: RequestHandler = async (req, res, next) => {
     if (!userToken) {
       throw createHttpError(400, "Refresh Token not found.");
     }
-    const token = verify(refreshToken, env.REFRESH_TOKEN_KEY) as JwtPayloadId;
+    verify(refreshToken, env.REFRESH_TOKEN_KEY) as JwtPayloadId;
     const accessToken = sign(
       { _id: userToken.userId, type: "access" },
       env.ACCESS_TOKEN_KEY,

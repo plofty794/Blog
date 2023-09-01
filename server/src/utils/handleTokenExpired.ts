@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, Response } from "express";
+import { Response } from "express";
 import { isRefreshToken } from "./isRefreshToken";
 
 export const handleTokenExpired = async (err: any, res: Response) => {

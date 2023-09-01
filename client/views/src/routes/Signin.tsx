@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SigninSchema, zodSigninSchema } from "@/zod schema/zodSchema";
-import ErrorMessage from "@/partials/ErrorMessage";
+import ErrorMessage from "@/partials/components/ErrorMessage";
 import { Link, Navigate } from "react-router-dom";
 import useSignin from "@/hooks/useSignin";
 

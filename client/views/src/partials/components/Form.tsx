@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useCreateBlog from "@/hooks/useCreateBlog";
 import { Toaster } from "@/components/ui/toaster";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { BlogSchema, zodBlogSchema } from "@/zod schema/zodSchema";
 import {
   Dialog,

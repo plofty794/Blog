@@ -1,5 +1,5 @@
 import { EditorProvider, EditorProviderProps } from "@tiptap/react";
-import { Control, Controller, FieldErrors } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./Menubar";
 
@@ -42,9 +42,7 @@ function TipTapEditor({ control, name }: EditorProps) {
               extensions={extensions}
               content={""}
               onUpdate={({ editor }) => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                onChange(editor.getJSON().content.flat()[0].content[0].text);
+                onChange(editor.getText());
               }}
             ></CustomEditorProvider>
             {error && <h1 className="text-white">{error.message}</h1>}

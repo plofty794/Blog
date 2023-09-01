@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareMinus } from "@fortawesome/free-solid-svg-icons";
-import { BlogSchema } from "../../../../server/src/models/Blogs";
+import { BlogSchema } from "../../../../../server/src/models/Blogs";
 import useDeleteBlog from "@/hooks/useDeleteBlog";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -17,7 +17,7 @@ function Blog({ blog }: { blog: BlogSchema }) {
       className="hover:-translate-y-1 transition-transform cursor-pointer flex flex-col items-center justify-center gap-2 p-2 m-2 rounded-lg border border-slate-400 bg-slate-800"
       key={blog._id.toString()}
     >
-      <Link to={"/blog-details"}>
+      <Link to={`/blog-details/${blog._id}`}>
         <h2 className="whitespace-pre-line text-center font-bold text-white text-lg">
           Title: {blog?.title.replace(/\b\w/gi, (val) => val.toUpperCase())}
         </h2>

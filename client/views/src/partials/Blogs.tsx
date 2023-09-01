@@ -1,5 +1,5 @@
 import { BlogSchema } from "@../../../../server/src/models/Blogs";
-import Blog from "./Blog";
+import Blog from "./components/Blog";
 import { Button } from "@/components/ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import useGetBlogs from "@/hooks/useGetBlogs";

@@ -8,7 +8,7 @@ import { SignupSchema, zodSignupSchema } from "../zod schema/zodSchema";
 import useSignup from "@/hooks/useSignup";
 import { Toaster } from "@/components/ui/toaster";
 
-import ErrorMessage from "@/partials/ErrorMessage";
+import ErrorMessage from "@/partials/components/ErrorMessage";
 import { Link } from "react-router-dom";
 
 function Signup() {

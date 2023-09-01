@@ -35,7 +35,7 @@ function App() {
           element={!user ? <Navigate replace to={"/signin"} /> : <Home />}
         />
 
-        <Route path="/blog-details" element={<BlogDetails />} />
+        <Route path="/blog-details/:id" element={<BlogDetails />} />
       </Route>
     )
   );
